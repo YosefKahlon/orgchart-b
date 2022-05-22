@@ -85,6 +85,21 @@
 		<Unit filename="/mnt/c/Users/97252/Documents/GitHub/orgchart-b/main.cpp">
 			<Option target="orgchart_b"/>
 		</Unit>
+		<Unit filename="/mnt/c/Users/97252/Documents/GitHub/orgchart-b/sources/Iterator.cpp">
+			<Option target="orgchart_b"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/97252/Documents/GitHub/orgchart-b/sources/Node.cpp">
+			<Option target="orgchart_b"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/97252/Documents/GitHub/orgchart-b/sources/Node.hpp">
+			<Option target="orgchart_b"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/97252/Documents/GitHub/orgchart-b/sources/OrgChart.cpp">
+			<Option target="orgchart_b"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/97252/Documents/GitHub/orgchart-b/sources/OrgChart.hpp">
+			<Option target="orgchart_b"/>
+		</Unit>
 		<Unit filename="/mnt/c/Users/97252/Documents/GitHub/orgchart-b/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

@@ -74,12 +74,12 @@ clean: CMakeFiles/orgchart_b.dir/clean
 CMakeFiles/orgchart_b.dir/all:
 	$(MAKE) -f CMakeFiles/orgchart_b.dir/build.make CMakeFiles/orgchart_b.dir/depend
 	$(MAKE) -f CMakeFiles/orgchart_b.dir/build.make CMakeFiles/orgchart_b.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/97252/Documents/GitHub/orgchart-b/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target orgchart_b"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/97252/Documents/GitHub/orgchart-b/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5 "Built target orgchart_b"
 .PHONY : CMakeFiles/orgchart_b.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/orgchart_b.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/97252/Documents/GitHub/orgchart-b/cmake-build-debug/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/97252/Documents/GitHub/orgchart-b/cmake-build-debug/CMakeFiles 5
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/orgchart_b.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/97252/Documents/GitHub/orgchart-b/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/orgchart_b.dir/rule

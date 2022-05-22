@@ -1,1 +1,1 @@
-/usr/bin/c++  -g   CMakeFiles/orgchart_b.dir/main.cpp.o  -o orgchart_b 
+/usr/bin/c++  -g   CMakeFiles/orgchart_b.dir/main.cpp.o CMakeFiles/orgchart_b.dir/sources/Node.cpp.o CMakeFiles/orgchart_b.dir/sources/OrgChart.cpp.o CMakeFiles/orgchart_b.dir/sources/Iterator.cpp.o  -o orgchart_b 
