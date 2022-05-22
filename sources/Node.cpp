@@ -72,7 +72,7 @@ int ariel::Node::getPos() const {
     return this->pos;
 }
 
-void ariel::Node::setPos(int pos_) {
+void ariel::Node::setPos(size_t pos_) {
     this->pos = pos_;
 }
 

@@ -54,10 +54,12 @@ int main() {
     }
     cout <<  "\n ------------- "  <<endl;
 
+
+
+
     std::vector<int> nums = {4, 3, 5, 3, 3, 5, 3, 3, 6, 4};
     int j = 0;
     for(auto it = org.begin_level_order(); it != org.end_level_order(); ++it){
-
         cout << (*it) << " ->" <<  it->size() << " vec " << nums.at((size_t)j)<<endl;
         j++;
     }

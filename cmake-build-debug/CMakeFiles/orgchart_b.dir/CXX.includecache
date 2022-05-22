@@ -28,6 +28,10 @@ OrgChart.hpp
 iostream
 /mnt/c/Users/97252/Documents/GitHub/orgchart-b/sources/iostream
 
+/mnt/c/Users/97252/Documents/GitHub/orgchart-b/sources/Node.cpp
+Node.hpp
+/mnt/c/Users/97252/Documents/GitHub/orgchart-b/sources/Node.hpp
+
 /mnt/c/Users/97252/Documents/GitHub/orgchart-b/sources/Node.hpp
 vector
 -

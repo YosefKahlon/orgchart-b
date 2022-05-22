@@ -9,7 +9,7 @@ using namespace ariel;
 
 
 //--------------------------Iterator------------------------------------
-string OrgChart::Iterator::operator*() { // was this string &OrgChart::Iterator::operator*()
+string OrgChart::Iterator::operator*() const { // was this string &OrgChart::Iterator::operator*()
     return (this->pointer_to_current_node->getTitle());
 }
 
@@ -35,8 +35,9 @@ OrgChart::level_order OrgChart::level_order::operator++(int) {
 }
 
 
-OrgChart::level_order &OrgChart::level_order::operator++() {
+const OrgChart::level_order &OrgChart::level_order::operator++() {
 
+//    std::cout << this->pointer_to_current_node->getTitle() << std::endl;
     if (index < this->org.map_degree.at(this->pointer_to_current_node->getDegree()).size()) {
         this->pointer_to_current_node = this->org.map_degree.at(this->pointer_to_current_node->getDegree()).at(index);
         index++;
@@ -48,7 +49,8 @@ OrgChart::level_order &OrgChart::level_order::operator++() {
         this->pointer_to_current_node->setDegree(temp_degree);
         if (find_map(this->pointer_to_current_node->getDegree()) == "Element Present" &&
             index < this->org.map_degree.at(this->pointer_to_current_node->getDegree()).size()) {
-            this->pointer_to_current_node = this->org.map_degree.at(this->pointer_to_current_node->getDegree()).at(index);
+            this->pointer_to_current_node = this->org.map_degree.at(this->pointer_to_current_node->getDegree()).at(
+                    index);
             index++;
         } else {
             this->pointer_to_current_node = nullptr;
@@ -62,10 +64,11 @@ OrgChart::level_order &OrgChart::level_order::operator++() {
 
 
 std::string OrgChart::level_order::find_map(int degree) {
-    if (this->org.map_degree.find(degree) == this->org.map_degree.end())
+    if (this->org.map_degree.find(degree) == this->org.map_degree.end()) {
         return "Element Not Present";
-    else
+    }
         return "Element Present";
+
 }
 
 
@@ -125,9 +128,9 @@ OrgChart::pre_order &OrgChart::pre_order::operator++() {
         if (this->pointer_to_current_node != nullptr) {
             //
             std::vector<Node *> preorder = this->pointer_to_current_node->getChild();
-            for (int i = preorder.size() - 1; i >= 0; i--) {
+            for (size_t i = preorder.size() - 1; i >= 0; i--) {
 
-                stack.push(preorder.at((unsigned long) i));
+                stack.push(preorder.at( i));
             }
         }
     } else {

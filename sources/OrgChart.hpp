@@ -21,16 +21,14 @@ namespace ariel {
         //-----------------------OrgChart---------------------------------
     private:
 
-        Node *root;
+        Node *root{};
         std::unordered_map<std::string, Node *> map;
         std::unordered_map<int, std::vector<Node *>> map_degree;
 
     public:
-        OrgChart() : root(nullptr) {};
-       // OrgChart(const OrgChart &org);
+        OrgChart();
         ~OrgChart() ;
-
-
+        OrgChart(const OrgChart & other);
         OrgChart& operator=(const OrgChart& other);
         OrgChart(OrgChart&& other)noexcept;
         OrgChart& operator=(OrgChart&& other)noexcept;
@@ -57,7 +55,7 @@ namespace ariel {
 
 
 
-            string operator*(); // was this -->  string &operator*();
+              string operator*() const; // was this -->  string &operator*();
             const Node *operator->() const;
 
             bool operator==(const Iterator &) const;
@@ -76,24 +74,22 @@ namespace ariel {
             level_order(const OrgChart &organization, Node *ptr) :
                     Iterator(organization, ptr), index(1) {}
 
-            level_order operator++(int);
-            level_order &operator++();
+             level_order operator++(int) ;
+           const level_order &operator++() ;
 
             std::string find_map(int degree);
         };
 
 
-        level_order begin_level_order() const;
+       level_order begin_level_order() const ;
 
-        level_order end_level_order() const;
+      level_order end_level_order() const ;
 
 
 //    public:
         class reverse_Order  : public  Iterator{
 
         private:
-//            Node *pointer_to_current_node;
-//            const OrgChart &org;
             int index;
             int de;
 
@@ -103,7 +99,7 @@ namespace ariel {
             reverse_Order(const OrgChart &organization, Node *ptr) :
                     Iterator(organization, ptr),de(organization.map_degree.size() - 1), index(1) {}
 
-            reverse_Order operator++(int);
+           reverse_Order operator++(int);
             reverse_Order &operator++();
 
 
@@ -140,7 +136,7 @@ namespace ariel {
             }
 
 
-            pre_order operator++(int);
+             pre_order operator++(int);
 
             pre_order &operator++();
 
@@ -171,7 +167,7 @@ namespace ariel {
 
 
 
-        void org_copy(const OrgChart &chart);
+        void org_copy(const OrgChart &other);
 
         void org_delete();
     };
