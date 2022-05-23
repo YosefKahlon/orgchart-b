@@ -56,17 +56,15 @@ void ariel::Node::setChild(const std::vector<Node *> &child) {
     this->child = child;
 }
 
-void ariel::Node::setDegree(int degree) {
-    this->degree = degree;
+void ariel::Node::setDegree(int degree_) {
+    this->degree = degree_;
 }
 
 const std::string& ariel::Node::getTitle() const {
     return (this->title);
 }
 
-int ariel::Node::getSize() const {
-    return size_;
-}
+
 
 int ariel::Node::getPos() const {
     return this->pos;
@@ -75,5 +73,15 @@ int ariel::Node::getPos() const {
 void ariel::Node::setPos(size_t pos_) {
     this->pos = pos_;
 }
+
+int ariel::Node::length() const {
+    return this->size_;
+}
+
+char ariel::Node::at( int i) const{
+    return this->title.at((size_t)i);
+}
+
+
 
 

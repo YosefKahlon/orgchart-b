@@ -6,32 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/mnt/c/Users/97252/Documents/GitHub/orgchart-b/main.cpp
-iostream
--
-vector
--
-iostream
--
-fstream
--
-sstream
--
-stdexcept
--
-sources/OrgChart.hpp
-/mnt/c/Users/97252/Documents/GitHub/orgchart-b/sources/OrgChart.hpp
-
-/mnt/c/Users/97252/Documents/GitHub/orgchart-b/sources/Iterator.cpp
-OrgChart.hpp
-/mnt/c/Users/97252/Documents/GitHub/orgchart-b/sources/OrgChart.hpp
-iostream
-/mnt/c/Users/97252/Documents/GitHub/orgchart-b/sources/iostream
-
-/mnt/c/Users/97252/Documents/GitHub/orgchart-b/sources/Node.cpp
-Node.hpp
-/mnt/c/Users/97252/Documents/GitHub/orgchart-b/sources/Node.hpp
-
 /mnt/c/Users/97252/Documents/GitHub/orgchart-b/sources/Node.hpp
 vector
 -

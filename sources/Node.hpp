@@ -30,7 +30,7 @@ namespace ariel {
 
         int size() const;
 
-        int getSize() const;
+
 
         int getPos() const;
 
@@ -51,6 +51,11 @@ namespace ariel {
         void setParent(Node *parent);
 
         void setSize(int size);
+
+        int length() const;
+
+        char at(int i ) const;
+
     };
 }
 

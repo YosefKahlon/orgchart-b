@@ -13,15 +13,14 @@ using namespace ariel;
 OrgChart::OrgChart() {
     this->root = nullptr;
 }
-    OrgChart::~OrgChart() {
-        for(const auto& x : map_degree){
-            for (const auto & i : x.second) {
-                delete  i;
-            }
+
+OrgChart::~OrgChart() {
+    for (const auto &x: map_degree) {
+        for (const auto &i: x.second) {
+            delete i;
         }
     }
-
-
+}
 
 
 /**
@@ -41,9 +40,16 @@ OrgChart &OrgChart::add_root(string root_) {
 
     } else {
         this->map.erase(this->root->getTitle());
-        this->map.insert({root_, this->root}); //[root name , Node*]
+        this->map_degree.erase(0);
+
+
         this->root->setTitle(root_);
         this->root->setSize(root_.length());
+        this->root->setDegree(0);
+
+        this->map_degree.insert({0, {this->root}});// [root degree , Node*]
+        this->map.insert({root_, this->root}); //[root name , Node*]
+
     }
 
     return *this;
@@ -64,7 +70,6 @@ OrgChart &OrgChart::add_sub(const string &root_, string other) {
     child_->setSize(other.length());
 
     std::vector<Node *> temp = this->map.at(root_)->getChild();
-    //  this->map.at(root_)->getChild().push_back(child_);
     temp.push_back(child_);
     this->map.at(root_)->setChild(temp);
 
@@ -74,30 +79,45 @@ OrgChart &OrgChart::add_sub(const string &root_, string other) {
     if (map_degree.find(child_->getDegree()) == map_degree.end()) {
         std::vector<Node *> v;
         v.push_back(child_);
-        child_->setPos((unsigned long )v.size() - 1);
+        child_->setPos((unsigned long) v.size() - 1);
         this->map_degree.insert({child_->getDegree(), v});
     } else {
-
+        bool is_in = false;
         if (child_->getDegree() >= 2) {
-            for (int i = 0; i < this->map_degree.at(child_->getDegree()).size(); ++i) {
-                if (child_->getParent()->getPos() < this->map_degree.at(child_->getDegree()).at((size_t)i)->getParent()->getPos()) {
+            for (int i = 0; i < this->map_degree.at(child_->getDegree()).size() && !is_in; ++i) {
+                if (child_->getParent()->getPos() ==
+                    this->map_degree.at(child_->getDegree()).at((size_t)i)->getParent()->getPos()) {
+
+                    size_t parent_child_size =this->map_degree.at(child_->getDegree()).at((size_t)i)->getParent()->getChild().size() - 1;
+                    size_t position = parent_child_size + (size_t)i;
+                    int p = position;
+                    auto pos = this->map_degree.at(child_->getDegree()).begin() + p;
+                    this->map_degree.at(child_->getDegree()).insert(pos, child_);
+
+
+                    child_->setPos((unsigned long) position);
+
+
+                    is_in = true;
+                } else if (child_->getParent()->getPos() <
+                           this->map_degree.at(child_->getDegree()).at((size_t) i)->getParent()->getPos()) {
                     auto pos = this->map_degree.at(child_->getDegree()).begin() + i;
                     this->map_degree.at(child_->getDegree()).insert(pos, child_);
-                    child_->setPos((unsigned long )i);
-                    i = this->map_degree.at(child_->getDegree()).size();
-                } else if (child_->getParent()->getPos() == this->map_degree.at(child_->getDegree()).at((size_t)i)->getParent()->getPos()) {
-                    auto pos = this->map_degree.at(child_->getDegree()).begin() + i + 1;
-                    this->map_degree.at(child_->getDegree()).insert(pos, child_);
-                    child_->setPos((unsigned long )i + 1);
-                    i = this->map_degree.at(child_->getDegree()).size();
+                    child_->setPos((unsigned long) i);
+
+                    is_in = true;
                 } else {
                     continue;
                 }
 
             }
-        }else {
+            if (!is_in) {
+                this->map_degree.at(child_->getDegree()).push_back(child_);
+                child_->setPos((unsigned long) this->map_degree.at(child_->getDegree()).size() - 1);
+            }
+        } else {
             this->map_degree.at(child_->getDegree()).push_back(child_);
-           child_->setPos(  (unsigned long )this->map_degree.at(child_->getDegree()).size()-1);
+            child_->setPos((unsigned long) this->map_degree.at(child_->getDegree()).size() - 1);
         }
 
 
@@ -114,23 +134,26 @@ std::ostream &ariel::operator<<(std::ostream &os, const OrgChart &output) {
     os << "----- \n";
 
     for (const auto &x: output.map_degree) {
-        for (const auto& i : output.map_degree.at(x.first)) {
+        for (const auto &i: output.map_degree.at(x.first)) {
             os << i->getTitle() << ", ";
         }
         os << "\n-----\n";
     }
 
 
-
     return os;
 }
 
 OrgChart::level_order OrgChart::begin_level_order() const {
+    if (this->map.empty()) {
+        throw std::invalid_argument("Empty OrgChart !");
+    }
+
     return level_order{*this, this->root};
 }
 
 OrgChart::level_order OrgChart::end_level_order() const {
-    if (this->map.empty()){
+    if (this->map.empty()) {
         throw std::invalid_argument("Empty OrgChart !");
     }
 
@@ -142,13 +165,16 @@ OrgChart::level_order OrgChart::end_level_order() const {
 
 
 OrgChart::level_order OrgChart::begin() const {
+    if (this->map.empty()) {
+        throw std::invalid_argument("Empty OrgChart !");
+    }
     return level_order{*this, this->root};
 }
 
 
 //no need to check the end
 OrgChart::level_order OrgChart::end() const {
-    if (this->map.empty()){
+    if (this->map.empty()) {
         throw std::invalid_argument("Empty OrgChart !");
     }
 
@@ -158,22 +184,29 @@ OrgChart::level_order OrgChart::end() const {
 }
 
 OrgChart::reverse_Order OrgChart::begin_reverse_order() const {
+    if (this->map.empty()) {
+        throw std::invalid_argument("Empty OrgChart !");
+    }
+
     return OrgChart::reverse_Order(*this, this->map_degree.at(map_degree.size() - 1).at(0));
 }
 
 OrgChart::reverse_Order OrgChart::reverse_order() const {
-    if (this->map.empty()){
+    if (this->map.empty()) {
         throw std::invalid_argument("Empty OrgChart !");
     }
     return OrgChart::reverse_Order(*this, nullptr);
 }
 
 OrgChart::pre_order OrgChart::begin_preorder() const {
+    if (this->map.empty()) {
+        throw std::invalid_argument("Empty OrgChart !");
+    }
     return OrgChart::pre_order(*this, this->root);
 }
 
 OrgChart::pre_order OrgChart::end_preorder() const {
-    if (this->map.empty()){
+    if (this->map.empty()) {
         throw std::invalid_argument("Empty OrgChart !");
     }
 
@@ -181,7 +214,7 @@ OrgChart::pre_order OrgChart::end_preorder() const {
 }
 
 OrgChart &OrgChart::operator=(const OrgChart &other) {
-    if(this != &other){
+    if (this != &other) {
         org_delete();
         org_copy(other);
     }
@@ -200,18 +233,17 @@ OrgChart::OrgChart(OrgChart &&other) noexcept {
 }
 
 OrgChart &OrgChart::operator=(OrgChart &&other) noexcept {
-  if (this != &other){
-      org_delete();
-      this->root = other.root;
-      other.root = nullptr;
-  }
+    if (this != &other) {
+        org_delete();
+        this->root = other.root;
+        other.root = nullptr;
+    }
     return *this;
 }
 
 
-
 void OrgChart::org_copy(const OrgChart &other) {
-    if(other.root == nullptr){
+    if (other.root == nullptr) {
         this->root = nullptr;
         return;
     }
@@ -219,28 +251,27 @@ void OrgChart::org_copy(const OrgChart &other) {
     this->add_root(other.root->getTitle());
 
 
-    std::unordered_map<string , std::vector<Node*>> vec;
+    std::unordered_map<string, std::vector<Node *>> vec;
 
-    for(const auto& x: other.map){
-        vec.at(x.first) =  x.second->getChild();
+    for (const auto &x: other.map) {
+        vec.at(x.first) = x.second->getChild();
 
     }
 
-    for(const auto& x: vec){
-        for (int i = 0; i < x.second.size() ; ++i) {
-         //   std::cout <<  "root "<<  x.first << "child" <<   x.second.at(i)->getTitle() <<std:: endl;
-            this->add_sub(x.first,x.second.at((unsigned long )i)->getTitle());
+    for (const auto &x: vec) {
+        for (int i = 0; i < x.second.size(); ++i) {
+            //    std::cout <<  "root "<<  x.first << "child" <<   x.second.at(i)->getTitle() <<std:: endl;
+            this->add_sub(x.first, x.second.at((unsigned long) i)->getTitle());
         }
     }
-
 
 
 }
 
 void OrgChart::org_delete() {
 
-    for (const auto& x: this->map_degree) {
-        for (const auto & i : x.second) {
+    for (const auto &x: this->map_degree) {
+        for (const auto &i: x.second) {
             delete i;
         }
 

@@ -19,6 +19,13 @@ namespace ariel {
 
     class OrgChart {
         //-----------------------OrgChart---------------------------------
+
+
+        friend class level_order;
+        friend class reverse_order;
+        friend class Node;
+        friend class pre_order;
+
     private:
 
         Node *root{};
@@ -48,8 +55,10 @@ namespace ariel {
         protected:
             Node *pointer_to_current_node;
             const OrgChart &org;
+
+
         public:
-            Iterator(const OrgChart &organization, Node *ptr) :
+         Iterator(const OrgChart &organization, Node *ptr) :
                     org(organization),
                     pointer_to_current_node(ptr){}
 
@@ -58,8 +67,11 @@ namespace ariel {
               string operator*() const; // was this -->  string &operator*();
             const Node *operator->() const;
 
+
+
             bool operator==(const Iterator &) const;
             bool operator!=(const Iterator &) const;
+
 
         };
 
@@ -69,10 +81,10 @@ namespace ariel {
 
         private:
             size_t index;
-
+            int de;
         public:
-            level_order(const OrgChart &organization, Node *ptr) :
-                    Iterator(organization, ptr), index(1) {}
+           level_order(const OrgChart &organization, Node *ptr) :
+                    Iterator(organization, ptr), index(1) ,de(0) {}
 
              level_order operator++(int) ;
            const level_order &operator++() ;
@@ -154,16 +166,7 @@ namespace ariel {
         level_order begin() const;
 
         level_order end() const;
-//        reverse_Order begin() const ;
-//        reverse_Order end()  const ;
-//        pre_order begin() const ;
-//        pre_order end()  const ;
 
-        friend class level_order;
-
-        friend class reverse_order;
-        friend class Node;
-        friend class pre_order;
 
 
 

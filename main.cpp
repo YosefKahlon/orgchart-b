@@ -10,59 +10,68 @@ using namespace std;
 using namespace ariel;
 
 int main() {
+    class Person {
+    public:
+        string name;
+        int age;
 
-    OrgChart org;
-    OrgChart org_empty;
-    OrgChart org_double_names;
-    /* create normal tree */
+        Person(string Name, int Age) : name(Name), age(Age) {}
 
-    org.add_root("dana");
-    org.add_root("shir");
-    org.add_sub("shir", "tal");
+        bool operator==(Person &p1) {
+            return this->name == p1.name;
+        }
+    };
+    //instantiate People
+    Person Great_GrandFather("Great_GrandFather", 85);
+    Person Grandfather("GrandFather", 65);
+    Person Father("Father", 45);
+    Person Uncle("Uncle", 43);
+    Person Aunt("Aunt", 43);
+    Person Son("Son", 20);
+    Person Daughter("Daughter", 18);
+    Person Cousin("Cousin", 15);
 
-    org.add_sub("shir", "sapir");
-    org.add_sub("sapir", "dan");
-    org.add_sub("dan", "ziv");
-    org.add_sub("tal", "avi");
-    org.add_sub("tal", "yossi");
-    org.add_sub("shir", "ido");
-    org.add_sub("ziv", "shaked");
-    org.add_sub("ziv", "ofer");
+    OrgChart chart1;
 
+    chart1.add_root(Aunt.name);
+    chart1.add_root(Great_GrandFather.name);
 
-    /* create tree with 1 name*/
-  org_double_names.add_root("adi");
-    for (size_t i = 0; i < 11; i++)
-    {
-      org_double_names.add_sub("adi", "adi");
+    chart1.add_sub(Great_GrandFather.name, Grandfather.name);
+    chart1.add_sub(Grandfather.name, Father.name);
+    chart1.add_sub(Grandfather.name, Uncle.name);
+    chart1.add_sub(Grandfather.name, Aunt.name);
+
+    chart1.add_sub(Father.name, Son.name);
+    chart1.add_sub(Father.name, Daughter.name);
+    chart1.add_sub(Uncle.name, Cousin.name);
+
+    // test level order
+    vector<string> lvl_order;
+    for (auto it = chart1.begin_level_order(); it != chart1.end_level_order(); ++it) {
+        lvl_order.push_back(*it);
     }
 
+    bool b1 =lvl_order.at(0)== Great_GrandFather.name;
+    cout << b1 << endl;
+    bool b2 = lvl_order.at(1)== Grandfather.name;
+    cout << b2 << endl;
+    bool b3 = lvl_order.at(2)== Father.name;
+    cout << b3 << endl;
+    bool b4 =lvl_order.at(3) == Uncle.name;//
+    cout << b4 << endl;
+    cout << lvl_order.at(3) <<endl;
+    bool b5 =lvl_order.at(4)== Aunt.name;//
+    cout << b5 << endl;
+    cout << lvl_order.at(4) <<endl;;
+    bool b6 =lvl_order.at(5)== Son.name;
+    cout << b6 << endl;
+    bool b7 =lvl_order.at(6)== Daughter.name;
+    cout << b7 << endl;
+    bool b8 =lvl_order.at(7)== Cousin.name;
+    cout << b8 << endl;
 
-    std::vector<std::string> v = {"shir", "tal", "sapir", "ido", "avi", "yossi", "dan", "ziv", "shaked", "ofer"};
-    size_t i = 0;
-    for(auto it = org.begin_level_order(); it != org.end_level_order(); ++it){
-//        CHECK_EQ(*it, v.at(i++));
-        cout << (*it)  << " vec " << v.at(i++) <<endl;
-
-    }
-
-    cout <<  " ------------- "  <<endl;
-
-    for(auto it = org_double_names.begin_level_order(); it != org_double_names.end_level_order(); ++it){
-        bool  b = (*it == "adi");
-        cout << b << ", ";
-    }
-    cout <<  "\n ------------- "  <<endl;
 
 
-
-
-    std::vector<int> nums = {4, 3, 5, 3, 3, 5, 3, 3, 6, 4};
-    int j = 0;
-    for(auto it = org.begin_level_order(); it != org.end_level_order(); ++it){
-        cout << (*it) << " ->" <<  it->size() << " vec " << nums.at((size_t)j)<<endl;
-        j++;
-    }
 
 
 }

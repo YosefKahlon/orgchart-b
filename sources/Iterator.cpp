@@ -24,7 +24,16 @@ bool OrgChart::Iterator::operator==(const OrgChart::Iterator &other) const {
 bool OrgChart::Iterator::operator!=(const OrgChart::Iterator &other) const {
     return this->pointer_to_current_node != other.pointer_to_current_node;
 }
+
+
+
+
 //---------------------------level_order---------------------------------
+
+
+
+
+
 
 
 
@@ -35,22 +44,20 @@ OrgChart::level_order OrgChart::level_order::operator++(int) {
 }
 
 
-const OrgChart::level_order &OrgChart::level_order::operator++() {
+    const OrgChart::level_order &OrgChart::level_order::operator++() {
 
-//    std::cout << this->pointer_to_current_node->getTitle() << std::endl;
-    if (index < this->org.map_degree.at(this->pointer_to_current_node->getDegree()).size()) {
-        this->pointer_to_current_node = this->org.map_degree.at(this->pointer_to_current_node->getDegree()).at(index);
+   // std::cout << this->pointer_to_current_node->getTitle() <<" - degree " << this->pointer_to_current_node->getDegree() << " - index" << this->index  << std::endl;
+    if (index < this->org.map_degree.at(this->de).size()) {
+        this->pointer_to_current_node = this->org.map_degree.at(this->de).at(index);
         index++;
     } else {
 
         index = 0;
-        int temp_degree = this->pointer_to_current_node->getDegree();
-        temp_degree++;
-        this->pointer_to_current_node->setDegree(temp_degree);
-        if (find_map(this->pointer_to_current_node->getDegree()) == "Element Present" &&
-            index < this->org.map_degree.at(this->pointer_to_current_node->getDegree()).size()) {
-            this->pointer_to_current_node = this->org.map_degree.at(this->pointer_to_current_node->getDegree()).at(
-                    index);
+        this->de++;
+
+        if (find_map(this->de) == "Element Present" &&
+            index < this->org.map_degree.at(this->de).size()) {
+            this->pointer_to_current_node = this->org.map_degree.at(this->de).at(index);
             index++;
         } else {
             this->pointer_to_current_node = nullptr;
@@ -82,6 +89,8 @@ OrgChart::reverse_Order OrgChart::reverse_Order::operator++(int) {
 }
 
 OrgChart::reverse_Order &OrgChart::reverse_Order::operator++() {
+
+
     if (index < this->org.map_degree.at(this->de).size()) {
         this->pointer_to_current_node = this->org.map_degree.at(this->de).at((unsigned long) index);
 
@@ -128,9 +137,11 @@ OrgChart::pre_order &OrgChart::pre_order::operator++() {
         if (this->pointer_to_current_node != nullptr) {
             //
             std::vector<Node *> preorder = this->pointer_to_current_node->getChild();
-            for (size_t i = preorder.size() - 1; i >= 0; i--) {
+            size_t pre_size = ( preorder.size() - 1);
+            for (int i = pre_size; i >= 0; i--) {
 
-                stack.push(preorder.at( i));
+
+                stack.push(preorder.at( (unsigned  long)i));
             }
         }
     } else {
