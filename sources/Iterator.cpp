@@ -8,8 +8,10 @@
 using namespace ariel;
 
 
-//--------------------------Iterator------------------------------------
-string OrgChart::Iterator::operator*() const { // was this string &OrgChart::Iterator::operator*()
+/**--------------------------Iterator------------------------------------
+implementation of  the methods for using iterator .
+-------------------------------------------------------------------- **/
+string OrgChart::Iterator::operator*() const {
     return (this->pointer_to_current_node->getTitle());
 }
 
@@ -26,27 +28,18 @@ bool OrgChart::Iterator::operator!=(const OrgChart::Iterator &other) const {
 }
 
 
-
-
-//---------------------------level_order---------------------------------
-
-
-
-
-
-
-
-
+/**--------------------------level_order------------------------------------
+  Postfix - copy then increase   , Prefix - Go through the map by levels (from up to down )
+---------------------------------------------------------------------------**/
 OrgChart::level_order OrgChart::level_order::operator++(int) {
-    auto it = *this;
+    auto copy = *this;
     ++(*this);
-    return it;
+    return copy;
 }
 
 
-    const OrgChart::level_order &OrgChart::level_order::operator++() {
+const OrgChart::level_order &OrgChart::level_order::operator++() {
 
-   // std::cout << this->pointer_to_current_node->getTitle() <<" - degree " << this->pointer_to_current_node->getDegree() << " - index" << this->index  << std::endl;
     if (index < this->org.map_degree.at(this->de).size()) {
         this->pointer_to_current_node = this->org.map_degree.at(this->de).at(index);
         index++;
@@ -74,14 +67,16 @@ std::string OrgChart::level_order::find_map(int degree) {
     if (this->org.map_degree.find(degree) == this->org.map_degree.end()) {
         return "Element Not Present";
     }
-        return "Element Present";
+    return "Element Present";
 
 }
 
 
-//----------------------------reverse_Order----------------------------------------
 
 
+/**--------------------------reverse_Order------------------------------------
+  Postfix - copy then increase   , Prefix - Go through the map by levels (from down to up )
+---------------------------------------------------------------------------**/
 OrgChart::reverse_Order OrgChart::reverse_Order::operator++(int) {
     auto copy = *this;
     ++(*this);
@@ -118,8 +113,10 @@ OrgChart::reverse_Order &OrgChart::reverse_Order::operator++() {
 }
 
 
-//----------------------------pre_order----------------------------------------
 
+/**--------------------------pre_order------------------------------------
+  Postfix - copy then increase   , Prefix -
+---------------------------------------------------------------------------**/
 
 OrgChart::pre_order OrgChart::pre_order::operator++(int) {
     auto copy = *this;
@@ -130,22 +127,50 @@ OrgChart::pre_order OrgChart::pre_order::operator++(int) {
 OrgChart::pre_order &OrgChart::pre_order::operator++() {
 
 
-    if (!stack.empty()) {
-        this->pointer_to_current_node = this->stack.top();
-        this->stack.pop();
+//    if (!stack.empty()) {
+//        this->pointer_to_current_node = this->stack.top();
+//        this->stack.pop();
+//
+//        if (this->pointer_to_current_node != nullptr) {
+//            //
+//            std::vector<Node *> preorder = this->pointer_to_current_node->getChild();
+//            size_t pre_size = ( preorder.size() - 1);
+//            for (int i = pre_size; i >= 0; i--) {
+//
+//
+//                stack.push(preorder.at( (unsigned  long)i));
+//            }
+//        }
+//    } else {
+//        this->pointer_to_current_node = nullptr;
+//    }
 
-        if (this->pointer_to_current_node != nullptr) {
-            //
-            std::vector<Node *> preorder = this->pointer_to_current_node->getChild();
-            size_t pre_size = ( preorder.size() - 1);
-            for (int i = pre_size; i >= 0; i--) {
-
-
-                stack.push(preorder.at( (unsigned  long)i));
-            }
-        }
-    } else {
-        this->pointer_to_current_node = nullptr;
+    //root
+    if(this->pointer_to_current_node == this->org.root){
+        this->pointer_to_current_node = this->pointer_to_current_node->getChild().at(0);
+        return *this;
     }
+
+    if(this->pointer_to_current_node->getChild().empty()){
+
+    while(this->pointer_to_current_node->getParent()->getChild().at(this->pointer_to_current_node->getParent()->getChild().size()-1) == this->pointer_to_current_node){
+        this->pointer_to_current_node = this->pointer_to_current_node->getParent();
+        if(this->pointer_to_current_node->getParent() == nullptr){
+            this->pointer_to_current_node = nullptr;
+            return *this;
+        }
+    }
+
+
+    this->pointer_to_current_node = this->pointer_to_current_node->getParent()->getChild().at(this->pointer_to_current_node->getPos()+1);
+
+    }
+    else{
+        this->pointer_to_current_node = this->pointer_to_current_node->getChild().at(0);
+        return *this;
+    }
+
+
+
     return *this;
 }

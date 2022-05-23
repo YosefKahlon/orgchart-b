@@ -5,12 +5,26 @@
 
 #include "Node.hpp"
 
+/**
+ *
+ * Implementation of the data(title, parent, child..) of OrgChart
+ * Most the method are Getter and Setter
+ * And implement the output operator.
+ *
+ *
+ *
+ *
+ */
+
+
+
 ariel::Node::Node(std::string &title_, int degree_) {
     this->parent = nullptr;
     this->title = title_;
     this->size_ = 0;
     this->degree = degree_;
     this->pos = 0;
+    this->entry = 0;
 }
 
 std::ostream &ariel::operator<<(std::ostream &os, const ariel::Node &output) {
@@ -80,6 +94,14 @@ int ariel::Node::length() const {
 
 char ariel::Node::at( int i) const{
     return this->title.at((size_t)i);
+}
+
+int ariel::Node::getEntry() const {
+    return this->entry;
+}
+
+void ariel::Node::setEntry(int entry_) {
+  this->entry = entry_;
 }
 
 

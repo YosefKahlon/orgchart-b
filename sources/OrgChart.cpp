@@ -10,8 +10,26 @@
 
 using namespace ariel;
 
+/**
+ * How my OrgChart is look
+ * i save my data in unordered_map<degree of Node, vector<all the Node in this degree>>
+ *
+ * for example :
+ *
+ * [0] --> {CEO}
+ * [1] --> {CTO,CFO,COO}
+ * [2] --> {VP_SW, VP_BI}
+ *
+ *
+ */
+
+
+
+
+
 OrgChart::OrgChart() {
     this->root = nullptr;
+    this->entry_num = 0;
 }
 
 OrgChart::~OrgChart() {
@@ -25,7 +43,7 @@ OrgChart::~OrgChart() {
 
 /**
  * Create new root if tree is not initialize yet
- * else : replace the name on the root
+ * else : replace the name of the current root
  *
  */
 OrgChart &OrgChart::add_root(string root_) {
@@ -51,10 +69,17 @@ OrgChart &OrgChart::add_root(string root_) {
         this->map.insert({root_, this->root}); //[root name , Node*]
 
     }
-
+    this->entry_num = 0;
+    this->root->setEntry(getEntryNum());
     return *this;
 }
 
+
+/**
+ *
+ *  Add sub to any exits root of the tree .
+ *
+ */
 
 OrgChart &OrgChart::add_sub(const string &root_, string other) {
 
@@ -75,7 +100,7 @@ OrgChart &OrgChart::add_sub(const string &root_, string other) {
 
     this->map.insert({other, child_});
 
-
+    //
     if (map_degree.find(child_->getDegree()) == map_degree.end()) {
         std::vector<Node *> v;
         v.push_back(child_);
@@ -122,7 +147,8 @@ OrgChart &OrgChart::add_sub(const string &root_, string other) {
 
 
     }
-
+    set_entry_num(1);
+    child_->setEntry(getEntryNum());
 
     return *this;
 }
@@ -276,6 +302,14 @@ void OrgChart::org_delete() {
         }
 
     }
+}
+
+void OrgChart::set_entry_num(int num) {
+    this->entry_num+= num;
+}
+
+int OrgChart::getEntryNum() const {
+    return this->entry_num;
 }
 
 

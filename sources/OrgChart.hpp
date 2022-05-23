@@ -31,6 +31,7 @@ namespace ariel {
         Node *root{};
         std::unordered_map<std::string, Node *> map;
         std::unordered_map<int, std::vector<Node *>> map_degree;
+        int entry_num;
 
     public:
         OrgChart();
@@ -127,23 +128,24 @@ namespace ariel {
         private:
 
             std::stack<Node *> stack;
+            int index;
 
         public:
 
             pre_order(const OrgChart &organization, Node *ptr) :
-                    Iterator(organization, ptr) {
+                    Iterator(organization, ptr) ,index(0) {
 
-                stack.push(nullptr);
-                if (pointer_to_current_node != nullptr) {
-                    stack.pop();
-                    std::vector<Node *> preorder = this->pointer_to_current_node->getChild();
-
-                    for (int i = preorder.size() - 1; i >= 0; i--) {
-                        stack.push(preorder.at((unsigned long) i));
-
-                    }
-
-                }
+//                stack.push(nullptr);
+//                if (pointer_to_current_node != nullptr) {
+//                    stack.pop();
+//                    std::vector<Node *> preorder = this->pointer_to_current_node->getChild();
+//
+//                    for (int i = preorder.size() - 1; i >= 0; i--) {
+//                        stack.push(preorder.at((unsigned long) i));
+//
+//                    }
+//
+//                }
 
             }
 
@@ -155,6 +157,10 @@ namespace ariel {
 
         };
 
+
+        void set_entry_num(int num);
+
+        int getEntryNum() const;
 
         pre_order begin_preorder() const;
 

@@ -10,68 +10,21 @@ using namespace std;
 using namespace ariel;
 
 int main() {
-    class Person {
-    public:
-        string name;
-        int age;
 
-        Person(string Name, int Age) : name(Name), age(Age) {}
-
-        bool operator==(Person &p1) {
-            return this->name == p1.name;
-        }
-    };
-    //instantiate People
-    Person Great_GrandFather("Great_GrandFather", 85);
-    Person Grandfather("GrandFather", 65);
-    Person Father("Father", 45);
-    Person Uncle("Uncle", 43);
-    Person Aunt("Aunt", 43);
-    Person Son("Son", 20);
-    Person Daughter("Daughter", 18);
-    Person Cousin("Cousin", 15);
-
-    OrgChart chart1;
-
-    chart1.add_root(Aunt.name);
-    chart1.add_root(Great_GrandFather.name);
-
-    chart1.add_sub(Great_GrandFather.name, Grandfather.name);
-    chart1.add_sub(Grandfather.name, Father.name);
-    chart1.add_sub(Grandfather.name, Uncle.name);
-    chart1.add_sub(Grandfather.name, Aunt.name);
-
-    chart1.add_sub(Father.name, Son.name);
-    chart1.add_sub(Father.name, Daughter.name);
-    chart1.add_sub(Uncle.name, Cousin.name);
-
-    // test level order
-    vector<string> lvl_order;
-    for (auto it = chart1.begin_level_order(); it != chart1.end_level_order(); ++it) {
-        lvl_order.push_back(*it);
-    }
-
-    bool b1 =lvl_order.at(0)== Great_GrandFather.name;
-    cout << b1 << endl;
-    bool b2 = lvl_order.at(1)== Grandfather.name;
-    cout << b2 << endl;
-    bool b3 = lvl_order.at(2)== Father.name;
-    cout << b3 << endl;
-    bool b4 =lvl_order.at(3) == Uncle.name;//
-    cout << b4 << endl;
-    cout << lvl_order.at(3) <<endl;
-    bool b5 =lvl_order.at(4)== Aunt.name;//
-    cout << b5 << endl;
-    cout << lvl_order.at(4) <<endl;;
-    bool b6 =lvl_order.at(5)== Son.name;
-    cout << b6 << endl;
-    bool b7 =lvl_order.at(6)== Daughter.name;
-    cout << b7 << endl;
-    bool b8 =lvl_order.at(7)== Cousin.name;
-    cout << b8 << endl;
+    OrgChart organization;
+    organization.add_root("CEO")
+            .add_sub("CEO", "CTO")      // Now the CTO is subordinate to the CEO
+            .add_sub("CEO", "CFO")         // Now the CFO is subordinate to the CEO
+            .add_sub("CEO", "COO")         // Now the COO is subordinate to the CEO
+            .add_sub("CTO", "VP_SW") // Now the VP Software is subordinate to the CTO
+            .add_sub("COO", "VP_BI");      // Now the VP_BI is subordinate to the COO
 
 
-
+       cout <<  " \n------------ \n " ;
+    for (auto it=organization.begin_preorder(); it!=organization.end_preorder(); ++it) {
+        cout << (*it) << " " ;
+    }  // prints: CEO CTO VP_SW CFO COO VP_BI
+    cout <<  "\n ------|------ \n " ;
 
 
 }
