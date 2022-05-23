@@ -29,7 +29,7 @@ using namespace ariel;
 
 OrgChart::OrgChart() {
     this->root = nullptr;
-    this->entry_num = 0;
+
 }
 
 OrgChart::~OrgChart() {
@@ -69,8 +69,8 @@ OrgChart &OrgChart::add_root(string root_) {
         this->map.insert({root_, this->root}); //[root name , Node*]
 
     }
-    this->entry_num = 0;
-    this->root->setEntry(getEntryNum());
+    this->root->setChildIndex(0);
+
     return *this;
 }
 
@@ -104,8 +104,12 @@ OrgChart &OrgChart::add_sub(const string &root_, string other) {
     if (map_degree.find(child_->getDegree()) == map_degree.end()) {
         std::vector<Node *> v;
         v.push_back(child_);
-        child_->setPos((unsigned long) v.size() - 1);
+        //child_->setPos((unsigned long) v.size() - 1);
+
         this->map_degree.insert({child_->getDegree(), v});
+        child_->setPos(child_->getParent()->getChild().size()-1);
+        child_->setChildIndex(child_->getParent()->getChild().size()-1);
+
     } else {
         bool is_in = false;
         if (child_->getDegree() >= 2) {
@@ -119,36 +123,37 @@ OrgChart &OrgChart::add_sub(const string &root_, string other) {
                     auto pos = this->map_degree.at(child_->getDegree()).begin() + p;
                     this->map_degree.at(child_->getDegree()).insert(pos, child_);
 
-
-                    child_->setPos((unsigned long) position);
-
-
+                    child_->setPos(child_->getParent()->getChild().size()-1);
+                //    child_->setPos((unsigned long) position);
+                    child_->setChildIndex(child_->getParent()->getChild().size()-1);
                     is_in = true;
                 } else if (child_->getParent()->getPos() <
                            this->map_degree.at(child_->getDegree()).at((size_t) i)->getParent()->getPos()) {
                     auto pos = this->map_degree.at(child_->getDegree()).begin() + i;
                     this->map_degree.at(child_->getDegree()).insert(pos, child_);
-                    child_->setPos((unsigned long) i);
-
+                  //  child_->setPos((unsigned long) i);
+                    child_->setPos(child_->getParent()->getChild().size()-1);
+                    child_->setChildIndex(child_->getParent()->getChild().size()-1);
                     is_in = true;
-                } else {
-                    continue;
                 }
 
             }
-            if (!is_in) {
+             if (!is_in) {
                 this->map_degree.at(child_->getDegree()).push_back(child_);
-                child_->setPos((unsigned long) this->map_degree.at(child_->getDegree()).size() - 1);
+              child_->setPos((unsigned long) this->map_degree.at(child_->getDegree()).size() - 1);
+            //    child_->setPos(child_->getParent()->getChild().size()-1);
+                 child_->setChildIndex(child_->getParent()->getChild().size()-1);
             }
         } else {
             this->map_degree.at(child_->getDegree()).push_back(child_);
-            child_->setPos((unsigned long) this->map_degree.at(child_->getDegree()).size() - 1);
+           //child_->setPos((unsigned long) this->map_degree.at(child_->getDegree()).size() - 1);
+            child_->setPos(child_->getParent()->getChild().size()-1);
+            child_->setChildIndex(child_->getParent()->getChild().size()-1);
         }
 
 
     }
-    set_entry_num(1);
-    child_->setEntry(getEntryNum());
+
 
     return *this;
 }
@@ -304,13 +309,6 @@ void OrgChart::org_delete() {
     }
 }
 
-void OrgChart::set_entry_num(int num) {
-    this->entry_num+= num;
-}
-
-int OrgChart::getEntryNum() const {
-    return this->entry_num;
-}
 
 
 

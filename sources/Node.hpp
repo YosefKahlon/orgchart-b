@@ -20,7 +20,8 @@ namespace ariel {
         int degree;
         std::string title;
         size_t pos ;
-        int entry;
+       size_t child_index;
+
     public:
         Node(std::string &title_, int degree_);
 
@@ -31,9 +32,9 @@ namespace ariel {
 
         int size() const;
 
-        int getEntry() const;
+        size_t getChildIndex() const;
 
-        void setEntry(int entry);
+        void setChildIndex(size_t childIndex);
 
         int getPos() const;
 

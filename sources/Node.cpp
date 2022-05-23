@@ -24,7 +24,8 @@ ariel::Node::Node(std::string &title_, int degree_) {
     this->size_ = 0;
     this->degree = degree_;
     this->pos = 0;
-    this->entry = 0;
+    this->child_index = 0;
+
 }
 
 std::ostream &ariel::operator<<(std::ostream &os, const ariel::Node &output) {
@@ -96,13 +97,16 @@ char ariel::Node::at( int i) const{
     return this->title.at((size_t)i);
 }
 
-int ariel::Node::getEntry() const {
-    return this->entry;
+size_t ariel::Node::getChildIndex() const {
+    return this->child_index;
 }
 
-void ariel::Node::setEntry(int entry_) {
-  this->entry = entry_;
+void ariel::Node::setChildIndex(size_t childIndex) {
+    this->child_index = childIndex;
 }
+
+
+
 
 
 

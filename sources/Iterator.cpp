@@ -72,8 +72,6 @@ std::string OrgChart::level_order::find_map(int degree) {
 }
 
 
-
-
 /**--------------------------reverse_Order------------------------------------
   Postfix - copy then increase   , Prefix - Go through the map by levels (from down to up )
 ---------------------------------------------------------------------------**/
@@ -113,7 +111,6 @@ OrgChart::reverse_Order &OrgChart::reverse_Order::operator++() {
 }
 
 
-
 /**--------------------------pre_order------------------------------------
   Postfix - copy then increase   , Prefix -
 ---------------------------------------------------------------------------**/
@@ -145,31 +142,39 @@ OrgChart::pre_order &OrgChart::pre_order::operator++() {
 //        this->pointer_to_current_node = nullptr;
 //    }
 
+
+
+
     //root
-    if(this->pointer_to_current_node == this->org.root){
-        this->pointer_to_current_node = this->pointer_to_current_node->getChild().at(0);
-        return *this;
-    }
-
-    if(this->pointer_to_current_node->getChild().empty()){
-
-    while(this->pointer_to_current_node->getParent()->getChild().at(this->pointer_to_current_node->getParent()->getChild().size()-1) == this->pointer_to_current_node){
-        this->pointer_to_current_node = this->pointer_to_current_node->getParent();
-        if(this->pointer_to_current_node->getParent() == nullptr){
+    if (this->pointer_to_current_node == this->org.root) {
+        if (this->pointer_to_current_node->getChild().empty()) {
             this->pointer_to_current_node = nullptr;
             return *this;
         }
-    }
-
-
-    this->pointer_to_current_node = this->pointer_to_current_node->getParent()->getChild().at(this->pointer_to_current_node->getPos()+1);
-
-    }
-    else{
         this->pointer_to_current_node = this->pointer_to_current_node->getChild().at(0);
         return *this;
     }
 
+    if (this->pointer_to_current_node->getChild().empty()) {
+
+        while (this->pointer_to_current_node->getParent()->getChild().at(
+                this->pointer_to_current_node->getParent()->getChild().size() - 1) == this->pointer_to_current_node) {
+            this->pointer_to_current_node = this->pointer_to_current_node->getParent();
+            if (this->pointer_to_current_node->getParent() == nullptr) {
+                this->pointer_to_current_node = nullptr;
+                return *this;
+            }
+        }
+
+
+
+        this->pointer_to_current_node = this->pointer_to_current_node->getParent()->getChild().at(
+                (size_t) this->pointer_to_current_node->getChildIndex() + 1);
+
+    } else {
+        this->pointer_to_current_node = this->pointer_to_current_node->getChild().at(0);
+        return *this;
+    }
 
 
     return *this;

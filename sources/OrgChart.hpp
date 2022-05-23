@@ -31,7 +31,7 @@ namespace ariel {
         Node *root{};
         std::unordered_map<std::string, Node *> map;
         std::unordered_map<int, std::vector<Node *>> map_degree;
-        int entry_num;
+
 
     public:
         OrgChart();
