@@ -112,7 +112,7 @@ OrgChart::reverse_Order &OrgChart::reverse_Order::operator++() {
 
 
 /**--------------------------pre_order------------------------------------
-  Postfix - copy then increase   , Prefix -
+  Postfix - copy then increase   , Prefix - left until null , then go to right
 ---------------------------------------------------------------------------**/
 
 OrgChart::pre_order OrgChart::pre_order::operator++(int) {
@@ -145,7 +145,7 @@ OrgChart::pre_order &OrgChart::pre_order::operator++() {
 
 
 
-    //root
+    //if current is the root
     if (this->pointer_to_current_node == this->org.root) {
         if (this->pointer_to_current_node->getChild().empty()) {
             this->pointer_to_current_node = nullptr;
@@ -155,8 +155,10 @@ OrgChart::pre_order &OrgChart::pre_order::operator++() {
         return *this;
     }
 
+    //if current is leave
     if (this->pointer_to_current_node->getChild().empty()) {
 
+        //current is last child of the of parent
         while (this->pointer_to_current_node->getParent()->getChild().at(
                 this->pointer_to_current_node->getParent()->getChild().size() - 1) == this->pointer_to_current_node) {
             this->pointer_to_current_node = this->pointer_to_current_node->getParent();
@@ -172,6 +174,7 @@ OrgChart::pre_order &OrgChart::pre_order::operator++() {
                 (size_t) this->pointer_to_current_node->getChildIndex() + 1);
 
     } else {
+        //current is the first child
         this->pointer_to_current_node = this->pointer_to_current_node->getChild().at(0);
         return *this;
     }

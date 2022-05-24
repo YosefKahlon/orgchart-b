@@ -25,6 +25,7 @@ ariel::Node::Node(std::string &title_, int degree_) {
     this->degree = degree_;
     this->pos = 0;
     this->child_index = 0;
+    print = false;
 
 }
 
@@ -103,6 +104,14 @@ size_t ariel::Node::getChildIndex() const {
 
 void ariel::Node::setChildIndex(size_t childIndex) {
     this->child_index = childIndex;
+}
+
+bool ariel::Node::isPrint() const {
+    return this->print;
+}
+
+void ariel::Node::setPrint(bool print_) {
+    this->print = print_;
 }
 
 

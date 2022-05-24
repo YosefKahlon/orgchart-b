@@ -53,12 +53,13 @@ namespace ariel {
 
 
         class Iterator{
-        protected:
+        //protected:
+        public:
             Node *pointer_to_current_node;
             const OrgChart &org;
 
 
-        public:
+        //public:
          Iterator(const OrgChart &organization, Node *ptr) :
                     org(organization),
                     pointer_to_current_node(ptr){}
@@ -110,7 +111,7 @@ namespace ariel {
 
 
             reverse_Order(const OrgChart &organization, Node *ptr) :
-                    Iterator(organization, ptr),de(organization.map_degree.size() - 1), index(1) {}
+                    Iterator(organization, ptr),de((int)organization.map_degree.size() - 1), index(1) {}
 
            reverse_Order operator++(int);
             reverse_Order &operator++();

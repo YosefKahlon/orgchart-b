@@ -16,41 +16,114 @@ int main() {
 
 
 
-    OrgChart chart2;
-   (chart2.add_root("Owner"));
-   (chart2.add_root("New_Owner"));
+    cout <<"\n----------- catch exception ---------\n";
 
-   (chart2.add_sub("New_Owner" , "General_Manager"));
-   (chart2.add_sub("New_Owner" , "Share_Holders"));
-   (chart2.add_sub("New_Owner" , "Head_of_operations"));
-   (chart2.add_sub("General_Manager" , "Head_Coach"));
-   (chart2.add_sub("General_Manager" , "Assistant_Coach"));
-   (chart2.add_sub("Head_of_operations" , "Team_Doctor"));
-   (chart2.add_sub("Head_of_operations" , "Head_Scout"));
-   (chart2.add_sub("Share_Holders" , "Sub_Share_Holder1"));
-   (chart2.add_sub("Share_Holders" , "Sub_Share_Holder2"));
+    OrgChart orgChart;
+    try {
+        orgChart.add_sub("no root", "test");
 
-   (chart2.add_sub("Head_Coach" , "Captain"));
-   (chart2.add_sub("Team_Doctor" , "Team_Physiotherapist"));
-
-    vector<string> pre_order;
-    for (auto it = chart2.begin_preorder(); it != chart2.end_preorder(); ++it) {
-        pre_order.push_back(*it);
+    } catch (exception& e) {
+        cout << e.what() << endl;
     }
-//
-//    bool a = (pre_order.at(0), "Stan_Kronke");
-//    bool a1 = (pre_order.at(1), "General_Manager");
-//    bool a2 = (pre_order.at(2), "Head_Coach");
-//    bool a3 = (pre_order.at(3), "Captain");
-//    bool a0 = (pre_order.at(4), "Assistant_Coach");
-//    bool a4 = (pre_order.at(5), "Water_Boy");
-//    bool a5 = (pre_order.at(6), "Share_Holders");
-//    bool a6 = (pre_order.at(7), "Sub_Share_Holder1");
-//    bool a7 = (pre_order.at(8), "Sub_Share_Holder2");
-//    bool a8 = (pre_order.at(9), "Head_of_operations");
-//    bool a9 = (pre_order.at(10), "Team_Doctor");
-//    bool a10 = (pre_order.at(11), "Team_Physiotherapist");
-//    bool a11 = (pre_order.at(12), "Head_Scout");
 
+
+    cout <<"\n-----------inti OrgChart ---------\n";
+
+    orgChart.add_root("root").
+            add_sub("root", "child_a").
+            add_sub("root", "child_b").
+            add_sub("root", "child_c").
+            add_sub("root","child_d").
+            add_sub("root","child_e").
+            add_sub("root","child_f");
+
+
+    cout<< orgChart <<endl;
+
+    cout <<"\n-----------revers iterator---------\n";
+
+
+    /**
+     *                         root
+     *                          |
+     *       ----   --------  -------   ------   ------
+     *     |      |         |         |        |       |
+     *  child_a, child_b, child_c, child_d, child_e, child_f
+     *
+     *
+     */
+
+
+
+    for(auto it = orgChart.begin_reverse_order() ; it != orgChart.reverse_order(); ++it){
+        cout << (*it) <<", ";
+}
+
+    cout << endl;
+
+    cout <<"\n--------- add child for child of root --------\n";
+
+    orgChart.add_sub("child_a", "child_a_a");
+    orgChart.add_sub("child_a", "child_a_b");
+    orgChart.add_sub("child_f", "child_f_a");
+    orgChart.add_sub("child_f", "child_f_b");
+
+    cout<<orgChart <<endl;
+
+
+    cout <<"\n--------- level order  --------\n";
+
+    /**
+ *                         root
+ *                          |
+ *       ----   --------  -------   ------   ------
+ *     |      |         |         |        |       |
+ *  child_a, child_b, child_c, child_d, child_e, child_f
+ *    |                                            |
+ *  ----------  -------                   -------    --------
+ *            |                                    |
+ *  child_a_a, child_a_b                  child_f_a, child_f_b,
+ *
+ *
+ */
+
+
+
+
+    for(auto it = orgChart.begin_level_order() ; it != orgChart.end_level_order(); ++it){
+        cout << (*it) <<", ";
+    }
+
+    cout << endl;
+
+
+
+    orgChart.add_root("root_$_");
+
+    /**
+     *                        root_$_
+     *                          |
+     *       ----   --------  -------   ------   ------
+     *     |      |         |         |        |       |
+     *  child_a, child_b, child_c, child_d, child_e, child_f
+     *    |                                            |
+     *  ----------  -------                   -------    --------
+     *            |                                    |
+     *  child_a_a, child_a_b                  child_f_a, child_f_b,
+     *
+     *
+     */
+
+
+
+
+    cout <<"\n--------- pre order order  --------\n";
+
+    for(auto x = orgChart.begin_preorder(); x != orgChart.end_preorder() ; ++x){
+        cout << (*x) <<", ";
+    }
+    cout << endl;
+//
 
 }
+
