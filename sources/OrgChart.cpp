@@ -12,7 +12,7 @@ using namespace ariel;
 
 /**
  * How my OrgChart is look
- * i save my data in unordered_map<degree of Node, vector<all the Node in this degree>>
+ * i saved my data in unordered_map<degree of Node, vector<all the Node in this degree>>
  *
  * for example :
  *
@@ -26,12 +26,13 @@ using namespace ariel;
 
 
 
-
+//constructor
 OrgChart::OrgChart() {
     this->root = nullptr;
-
 }
 
+
+//destructor
 OrgChart::~OrgChart() {
     for (const auto &x: map_degree) {
         for (const auto &i: x.second) {
@@ -39,6 +40,10 @@ OrgChart::~OrgChart() {
         }
     }
 }
+
+
+
+
 
 
 /**
@@ -77,7 +82,7 @@ OrgChart &OrgChart::add_root(string root_) {
 
 /**
  *
- *  Add sub to any exits root of the tree .
+ * Add a sub to the root assuming it exists
  *
  */
 
@@ -178,7 +183,6 @@ OrgChart &OrgChart::add_sub(const string &root_, string other) {
 
 std::ostream &ariel::operator<<(std::ostream &os, const OrgChart &output) {
 
-
     int temp = 0;
     for (auto it = output.begin_level_order(); it != output.end_level_order(); ++it) {
 
@@ -191,13 +195,16 @@ std::ostream &ariel::operator<<(std::ostream &os, const OrgChart &output) {
 
     }
 
-
     os << "\n";
-
 
     return os;
 }
 
+
+
+/**--------------------------------------------------------------------------
+                                level_order
+---------------------------------------------------------------------------**/
 OrgChart::level_order OrgChart::begin_level_order() const {
     if (this->map.empty()) {
         throw std::invalid_argument("Empty OrgChart !");
@@ -219,26 +226,19 @@ OrgChart::level_order OrgChart::end_level_order() const {
 
 
 OrgChart::level_order OrgChart::begin() const {
-//    if (this->map.empty()) {
-//        throw std::invalid_argument("Empty OrgChart !");
-//    }
-//    return level_order{*this, this->root};
     return begin_level_order();
 }
 
 
-//no need to check the end
+
 OrgChart::level_order OrgChart::end() const {
-//    if (this->map.empty()) {
-//        throw std::invalid_argument("Empty OrgChart !");
-//    }
-//
-//
-//    auto it = level_order(*this, nullptr);
-//    return it;
     return end_level_order();
 }
 
+
+/**--------------------------------------------------------------------------
+                                reverse_order
+---------------------------------------------------------------------------**/
 OrgChart::reverse_Order OrgChart::begin_reverse_order() const {
     if (this->map.empty()) {
         throw std::invalid_argument("Empty OrgChart !");
@@ -254,6 +254,11 @@ OrgChart::reverse_Order OrgChart::reverse_order() const {
     return OrgChart::reverse_Order(*this, nullptr);
 }
 
+
+
+/**--------------------------------------------------------------------------
+                                pre_order
+---------------------------------------------------------------------------**/
 OrgChart::pre_order OrgChart::begin_preorder() const {
     if (this->map.empty()) {
         throw std::invalid_argument("Empty OrgChart !");
@@ -269,19 +274,33 @@ OrgChart::pre_order OrgChart::end_preorder() const {
     return OrgChart::pre_order(*this, nullptr);
 }
 
-OrgChart &OrgChart::operator=(const OrgChart &other) {
-    if (this != &other) {
-        //org_delete();
 
+
+
+
+
+
+
+/**--------------------------------------------------------------------------
+         deep copy , operator = , move(rvalue -> lvalue without copy)
+---------------------------------------------------------------------------**/
+
+
+
+OrgChart &OrgChart::operator=(const OrgChart &other) {
+    if (this != &other) { // preventing problem in a=a
+
+        // delete
         for (const auto &x: this->map_degree) {
             for (const auto &i: x.second) {
                 delete i;
             }
 
         }
+        //copy
         org_copy(other);
     }
-    return *this;
+    return *this; // allows a=b=c
 
 }
 
@@ -295,17 +314,20 @@ OrgChart::OrgChart(OrgChart &&other) noexcept {
     other.root = nullptr;
 }
 
+
+//   // Move constructor
+//    // It will simply shift the resources,
+//    // without creating a copy.
 OrgChart &OrgChart::operator=(OrgChart &&other) noexcept {
     if (this != &other) {
-        //org_delete();
 
+        //delete
         for (const auto &x: this->map_degree) {
             for (const auto &i: x.second) {
                 delete i;
             }
 
         }
-
 
         this->root = other.root;
         other.root = nullptr;
@@ -340,15 +362,7 @@ void OrgChart::org_copy(const OrgChart &other) {
 
 }
 
-void OrgChart::org_delete() {
 
-    for (const auto &x: this->map_degree) {
-        for (const auto &i: x.second) {
-            delete i;
-        }
-
-    }
-}
 
 
 

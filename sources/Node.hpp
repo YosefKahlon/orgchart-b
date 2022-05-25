@@ -21,14 +21,12 @@ namespace ariel {
         std::string title;
         size_t pos ;
        size_t child_index;
-       bool print;
+
 
     public:
         Node(std::string &title_, int degree_);
 
-        bool isPrint() const;
 
-        void setPrint(bool print_);
 
         friend std::ostream &operator<<(std::ostream &os, const Node &output);
 
